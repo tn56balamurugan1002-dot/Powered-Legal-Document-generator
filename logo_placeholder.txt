@@ -1,0 +1,1 @@
+Optional: add your own logo as frontend/logo.png.
