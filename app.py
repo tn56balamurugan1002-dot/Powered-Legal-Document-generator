@@ -2,7 +2,20 @@ import html, os, requests, streamlit as st
 from dotenv import load_dotenv
 from document_utils import sanitize_text, format_docx, format_pdf
 load_dotenv()
-API_URL=os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
+
+
+def get_setting(name, default=""):
+    """Read a setting from environment variables or Streamlit secrets."""
+    value = os.getenv(name)
+    if value:
+        return value
+    try:
+        return st.secrets.get(name, default)
+    except Exception:
+        return default
+
+
+API_URL=get_setting("BACKEND_URL", "http://127.0.0.1:8000").rstrip("/")
 st.set_page_config(page_title="LegalEase", page_icon="⚖️", layout="wide")
 st.markdown("""<style>.title{text-align:center;font-size:42px;font-weight:700}.subtitle{text-align:center;color:#777}.preview{background:#1e1e1e;color:#f5f5f5;padding:25px;border-radius:12px;height:520px;overflow-y:auto;line-height:1.7;white-space:pre-wrap}</style>""", unsafe_allow_html=True)
 c1,c2,c3=st.columns([1,2,1])
