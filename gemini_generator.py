@@ -7,7 +7,7 @@ class GeminiDocumentGenerator:
         self.api_key=os.getenv("GEMINI_API_KEY")
         self.model_name=os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
         if not self.api_key:
-            raise RuntimeError("GEMINI_API_KEY is not configured. Create .env from .env.example.")
+            raise RuntimeError("GEMINI_API_KEY is not configured. Create .env from env.example.")
         try:
             from google import genai
         except ImportError as exc:
