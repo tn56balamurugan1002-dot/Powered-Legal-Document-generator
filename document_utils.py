@@ -5,6 +5,7 @@ from docx.shared import Pt
 from fpdf import FPDF
 
 def sanitize_text(text):
+    text = text or ""
     for a,b in {"\u2018":"'","\u2019":"'","\u201c":"\"","\u201d":"\"","\u2013":"-","\u2014":"-","\u2026":"...","\u00a0":" "}.items(): text=text.replace(a,b)
     return text.strip()
 
@@ -30,6 +31,10 @@ def format_pdf(text, doc_type):
     for raw in sanitize_text(text).splitlines():
         line=raw.strip()
         if not line: pdf.ln(4); continue
-        if heading(line): pdf.set_font("Times","B",13); pdf.multi_cell(0,8,line); pdf.set_font("Times",size=12)
-        else: pdf.multi_cell(0,7,line)
+        if heading(line):
+            pdf.set_font("Times","B",13)
+            pdf.multi_cell(0,8,line,new_x="LMARGIN",new_y="NEXT")
+            pdf.set_font("Times",size=12)
+        else:
+            pdf.multi_cell(0,7,line,new_x="LMARGIN",new_y="NEXT")
     out=pdf.output(dest="S"); return out.encode("latin-1",errors="replace") if isinstance(out,str) else bytes(out)
