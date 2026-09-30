@@ -1,6 +1,8 @@
 # LegalEase: AI-Powered Legal Document Generator
 
-Streamlit + FastAPI application for AI-assisted drafting of contracts, agreements, NDAs and similar documents using Google's Gemini API.
+FastAPI web application for AI-assisted drafting of contracts, agreements,
+NDAs, and similar documents using Google's Gemini API. The Vercel deployment
+serves both the responsive browser interface and API from one project.
 
 ## Setup
 ```powershell
@@ -25,24 +27,23 @@ streamlit run app.py
 
 ## Deployment
 
-This project contains two different applications:
+This project contains:
 
-- `main.py` is the FastAPI backend.
-- `app.py` is the Streamlit frontend.
+- `main.py` — the FastAPI application and built-in Vercel web interface.
+- `app.py` — an optional Streamlit frontend for local use or Streamlit Cloud.
 
-Do not deploy `app.py` as a Vercel Function. Vercel runs short-lived Python
-Functions, while Streamlit needs its own server process. The included
-`pyproject.toml` tells Vercel to use `main.py` as the backend entrypoint.
-After deploying the backend to Vercel, add `GEMINI_API_KEY` and
-`GEMINI_MODEL` in the Vercel project environment variables. Verify it at:
+The included `pyproject.toml` tells Vercel to use `main.py` as the application
+entrypoint. After deploying, add `GEMINI_API_KEY` and optionally `GEMINI_MODEL`
+in the Vercel project environment variables, then redeploy. Open the project
+domain for the web interface and verify the API at:
 
 ```text
 https://YOUR-VERCEL-DOMAIN/health
 ```
 
-Deploy the Streamlit frontend separately using Streamlit Community Cloud. Set
-`BACKEND_URL` in the app's Streamlit secrets to the deployed backend URL, for
-example:
+If you prefer the optional Streamlit frontend, deploy `app.py` separately with
+Streamlit Community Cloud. Set `BACKEND_URL` in Streamlit secrets to the
+deployed Vercel URL:
 
 ```toml
 BACKEND_URL = "https://YOUR-VERCEL-DOMAIN"
@@ -50,6 +51,7 @@ BACKEND_URL = "https://YOUR-VERCEL-DOMAIN"
 
 ## Structure
 - `main.py` - FastAPI application
+- `index.html` - responsive web interface served by FastAPI
 - `routes.py` - `/generate` endpoint
 - `gemini_generator.py` - Gemini integration
 - `app.py` - Streamlit UI

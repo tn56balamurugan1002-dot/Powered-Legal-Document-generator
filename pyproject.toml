@@ -7,6 +7,8 @@ dependencies = [
     "uvicorn[standard]",
     "python-dotenv",
     "google-genai",
+    "python-docx",
+    "fpdf2",
 ]
 
 [tool.vercel]

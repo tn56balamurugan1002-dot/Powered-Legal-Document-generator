@@ -27,8 +27,10 @@ class LegalPDF(FPDF):
     def footer(self): self.set_y(-15); self.set_font("Times",size=9); self.cell(0,10,"LegalEase - AI-Assisted Legal Document Draft",align="C")
 
 def format_pdf(text, doc_type):
-    pdf=LegalPDF(doc_type or "Legal Document"); pdf.set_auto_page_break(True,20); pdf.add_page(); pdf.set_font("Times",size=12)
-    for raw in sanitize_text(text).splitlines():
+    safe_title = sanitize_text(doc_type or "Legal Document").encode("latin-1", errors="replace").decode("latin-1")
+    pdf=LegalPDF(safe_title); pdf.set_auto_page_break(True,20); pdf.add_page(); pdf.set_font("Times",size=12)
+    pdf_text = sanitize_text(text).encode("latin-1", errors="replace").decode("latin-1")
+    for raw in pdf_text.splitlines():
         line=raw.strip()
         if not line: pdf.ln(4); continue
         if heading(line):
