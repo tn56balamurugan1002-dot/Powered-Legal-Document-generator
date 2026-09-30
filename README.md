@@ -41,6 +41,11 @@ domain for the web interface and verify the API at:
 https://YOUR-VERCEL-DOMAIN/health
 ```
 
+If `GEMINI_API_KEY` is not configured, the application remains usable in
+template mode. It creates a structured, editable draft from the supplied
+details and clearly labels the output as template-based. When a key is
+configured, generation automatically uses Gemini.
+
 If you prefer the optional Streamlit frontend, deploy `app.py` separately with
 Streamlit Community Cloud. Set `BACKEND_URL` in Streamlit secrets to the
 deployed Vercel URL:

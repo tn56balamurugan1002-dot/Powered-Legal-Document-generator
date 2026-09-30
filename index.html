@@ -162,7 +162,11 @@
         if (!response.ok) throw new Error(await parseError(response));
         const data = await response.json();
         documentBox.value = data.document;
-        showMessage("Draft generated. Review and edit it before downloading.");
+        showMessage(
+          data.mode === "template"
+            ? "Template draft generated. Configure Gemini for AI drafting; review this document before use."
+            : "AI draft generated. Review and edit it before downloading."
+        );
       } catch (error) {
         showMessage(error.message || "Document generation failed.", true);
       } finally {

@@ -42,7 +42,8 @@ def generate_document(request: DocumentRequest):
         raise HTTPException(status_code=422, detail="All fields are required.")
 
     try:
-        text = get_generator().generate_document(
+        document_generator = get_generator()
+        text = document_generator.generate_document(
             values["document_type"],
             values["parties"],
             values["terms"],
@@ -53,7 +54,11 @@ def generate_document(request: DocumentRequest):
                 status_code=502,
                 detail="The Gemini API returned an empty document.",
             )
-        return {"status":"success", "document":text}
+        return {
+            "status": "success",
+            "document": text,
+            "mode": document_generator.mode,
+        }
     except HTTPException:
         raise
     except RuntimeError as exc:
